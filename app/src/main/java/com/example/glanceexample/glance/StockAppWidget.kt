@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalSize
+import androidx.glance.action.clickable
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.layout.Alignment
@@ -73,6 +74,10 @@ class StockAppWidget : GlanceAppWidget() {
         }
     }
 
+    private fun refreshPrice() {
+        PriceDataRepo.update()
+    }
+
     @Composable
     fun GlanceContent() {
         val stateCount by PriceDataRepo.currentPrice.collectAsState()
@@ -92,6 +97,7 @@ class StockAppWidget : GlanceAppWidget() {
                 .fillMaxSize()
                 .background(GlanceTheme.colors.background)
                 .padding(8.dp)
+                .clickable { refreshPrice() }
         ) {
             StockDisplay(stateCount)
         }
